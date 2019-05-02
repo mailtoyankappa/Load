@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nationwide-Virtual Assistant</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link href="https://agentactivationchatbotsn.blob.core.windows.net/botclientstorage/botchat.css" rel="stylesheet" />
+  </head>
+  <body oncontextmenu="return false;">
+    <div id="bot"/>
+    <script src="https://agentactivationchatbotsn.blob.core.windows.net/botclientstorage/botchat.js"></script>
+    <script>
+      /**
+        * Disable right-click of mouse, F12 key, and save key combinations on page
+        */
+      window.onload = function() {
+        //--start Testing window resizing onload
+        // var w = window.innerWidth;
+        // var h = window.innerHeight;
+        // alert("Window size: " + w + " x " + h);
+        // var newW = w -104;
+        // var newH = h-104;
+        // alert("Resizing to " + newW + " x " + newH);
+        // window.resizeTo(newW,newH);
+        // w = window.innerWidth;
+        // h = window.innerHeight;
+        // alert("Window resized to: " + w + " x " + h);
+        //--end Testing window resizing onload
+        document.addEventListener("contextmenu", function(e){
+          e.preventDefault();
+        }, false);
+        document.addEventListener("keydown", function(e) {
+        // "I" key
+          if (e.ctrlKey && e.shiftKey && e.keyCode == 73) {
+            disabledEvent(e);
+          }
+          // "J" key
+          if (e.ctrlKey && e.shiftKey && e.keyCode == 74) {
+            disabledEvent(e);
+          }
+          // "S" key + macOS
+          if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+            disabledEvent(e);
+          }
+          // "U" key
+          if (e.ctrlKey && e.keyCode == 85) {
+            disabledEvent(e);
+          }
+        }, false);
+        function disabledEvent(e){
+          if (e.stopPropagation){
+            e.stopPropagation();
+          } else if (window.event){
+            window.event.cancelBubble = true;
+          }
+          e.preventDefault();
+          return false;
+        }
+		
+	    /**
+      * Directline- BotChat and Token Service goes here
+      */
+		
+    		var data = null;
+    		var xhr = new XMLHttpRequest();
+    		xhr.addEventListener("readystatechange", function () {
+    		  if (this.readyState === 4) {
+    			console.log("this.responseText: "+this.responseText);
+    		var responseTextString="";
+    		responseTextString=(this.responseText).toString();
+    		console.log("responseTextString: "+responseTextString);
+    		var response = JSON.parse(responseTextString);
+    		console.log("token: "+response.token);
+    			
+    			  function getParameterByName(name, url) {
+    				if (!url) url = window.location.href;
+    				name = name.replace(/[\[\]]/g, "\\$&");
+    				var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+    					results = regex.exec(url);
+    				if (!results) return null;
+    				if (!results[2]) return '';
+    				return decodeURIComponent(results[2].replace(/\+/g, " "));
+    			}
+    				var Uname = getParameterByName('username');
+            var Uid = getParameterByName('userid');
+    				var botConnection = new BotChat.DirectLine({
+    					  token: response.token
+    				  });
+    				  var bot = { id: 'Virtual Assistant' };
+    				  var user = { id: response.conversationId, name: Uname, userid: Uid };
+    				  BotChat.App({
+    					  botConnection: botConnection,
+    					  user: user,
+    					  bot: bot,
+    					  resize: 'detect'
+    				  }, document.getElementById("bot"));
+    				
+    				 botConnection
+    				  .postActivity({
+    					from: user,
+    					name: 'requestWelcomeDialog',
+    					type: 'event',
+    					value: 'GreetAgents'
+    				  })
+    				  .subscribe(function (id) {
+    					console.log('requestWelcomeDialog');
+    				  });
+    			
+    		  }
+    		});
+    
+    	console.log("Before POST");
+    
+    	xhr.open("POST", "https://api-stage.nationwide.com/routing/bot-connector/v3/directline/tokens/generate");
+    	xhr.setRequestHeader("origin", "https://virtualassistant-test.nationwide.com");
+    	xhr.setRequestHeader("user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.170 Safari/537.36");
+    	xhr.setRequestHeader("accept-language", "en-US,en;q=0.9");
+    	xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+    	xhr.setRequestHeader("accept", "application/json, text/javascript, */*; q=0.01");
+    	xhr.setRequestHeader("referer", "https://virtualassistant-test.nationwide.com/static/login.html");
+    	xhr.setRequestHeader("connection", "keep-alive");
+    	xhr.setRequestHeader("content-length", "0");
+    	xhr.setRequestHeader("client_id", "fqBMB9zcADY1apoFBwIeSPStliuT4xiO");
+    	xhr.setRequestHeader("client_secret_name", "AgentActivationChatBotSND2");
+    
+    	xhr.send(data);
+		};
+    </script>
+  </body>
+</html>

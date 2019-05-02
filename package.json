@@ -1,0 +1,33 @@
+{
+  "name": "AgentActivationChatbot-Demo",
+  "version": "1.0.0",
+  "main": "app.js",
+  "author": "Gowtham Vugranam Chakravarthi, PradeepKumar B & Raahul C",
+  "license": "ISC",
+  "description": "This repository contains a code for AgentActivationChatbot, a bot that would enable agents to get immediate answers to FAQ's and fetch job aid's, video snacks and eLearning modules etc for them. The Agent Accelerator ChatBot will be the first line of contact,  transferring context and interaction to a human live-chat when either the ChatBot detects struggle or requested by the Agent.",
+  "dependencies": {
+    "@dgs-chatbot/splunk-logger": "^1.0.0",
+    "azure-storage": "^2.10.1",
+    "bluebird": "^3.5.1",
+    "botbuilder": "^3.15.0",
+    "botbuilder-azure": "^3.1.0",
+    "dotenv-extended": "^2.3.0",
+    "lokijs": "^1.5.5",
+    "open": "0.0.5",
+    "request-promise": "^4.2.2",
+    "request-promise-core": "^1.1.1",
+    "restify": "^5.2.1",
+    "safer-buffer": "^2.1.2",
+    "semver": "^5.6.0",
+    "spdy-transport": "^3.0.0",
+    "stealthy-require": "^1.1.1"
+  },
+  "devDependencies": {
+    "request": "^2.81.0",
+    "zip-folder": "^1.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "azure-publish": "node publish.js"
+  }
+}
